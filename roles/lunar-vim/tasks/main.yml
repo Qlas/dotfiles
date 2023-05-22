@@ -5,6 +5,7 @@
       - make
       - pip
       - npm
+      - g++
       - cargo
       - neovim
 - name: Create npm-global folder

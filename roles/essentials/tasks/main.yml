@@ -1,4 +1,6 @@
 - name: Install Packages
   become: true
   ansible.builtin.dnf:
+    name:
+      - kitty
     update_cache: true
