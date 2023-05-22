@@ -8,10 +8,26 @@
       - g++
       - cargo
       - neovim
+
 - name: Create npm-global folder
   ansible.builtin.file:
     path: "{{ ansible_env.HOME }}/.npm-global"
     state: directory
+
+- name: Create fonts folder
+  ansible.builtin.file:
+    path: "{{ ansible_env.HOME }}/.local/share/fonts"
+    state: directory
+
+- name: Install Nerd Fonts
+  ansible.builtin.get_url:
+    url: https://github.com/ryanoasis/nerd-fonts/raw/HEAD/patched-fonts/DroidSansMono/DroidSansMNerdFont-Regular.otf
+    dest: "{{ ansible_env.HOME }}/.local/share/fonts/DroidSansMNerdFont-Regular.otf"
+
+- name: Update font-cache
+  ansible.builtin.shell:
+    cmd: fc-cache -f -v
+
 - name: Install LunarVim
   environment:
     LV_BRANCH: 'release-1.3/neovim-0.9'
