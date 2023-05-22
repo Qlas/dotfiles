@@ -1,0 +1,4 @@
+- name: Install Packages
+  become: true
+  ansible.builtin.dnf:
+    update_cache: true
