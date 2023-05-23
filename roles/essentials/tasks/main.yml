@@ -3,4 +3,5 @@
   ansible.builtin.dnf:
     name:
       - kitty
+      - rofi
     update_cache: true

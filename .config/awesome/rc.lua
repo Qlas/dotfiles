@@ -333,10 +333,7 @@ globalkeys = gears.table.join(
         history_path = awful.util.get_cache_dir() .. "/history_eval"
       }
     end,
-    { description = "lua execute prompt", group = "awesome" }),
-  -- Menubar
-  awful.key({ modkey }, "p", function() menubar.show() end,
-    { description = "show the menubar", group = "launcher" })
+    { description = "lua execute prompt", group = "awesome" })
 )
 
 clientkeys = gears.table.join(
@@ -447,12 +444,18 @@ clientbuttons = gears.table.join(
   end)
 )
 
+-- Custom
+
 globalkeys = gears.table.join(globalkeys,
   awful.key({ modkey, "Control" }, "Right", function() awful.screen.focus_relative(1) end,
     { description = "focus the next screen", group = "screen" }),
   awful.key({ modkey, "Control" }, "Left", function() awful.screen.focus_relative(-1) end,
-    { description = "focus the previous screen", group = "screen" })
-
+    { description = "focus the previous screen", group = "screen" }),
+  
+  -- rofi
+  awful.key({ modkey, modkey }, "d", function() awful.spawn.with_shell("rofi -show drun") end,
+    { description = "show Rofi", group = "launcher" })
+ 
 )
 
 -- Set keys
@@ -591,3 +594,5 @@ end)
 client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 -- }}}
+
+beautiful.useless_gap = 5
