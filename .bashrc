@@ -27,3 +27,4 @@ fi
 unset rc
 
 alias config='/usr/bin/git --git-dir=$HOME/dotfiles/ --work-tree=$HOME'
+export EDITOR=lvim
