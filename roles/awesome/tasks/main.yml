@@ -2,4 +2,50 @@
   become: true
   ansible.builtin.dnf:
      name:
-       - awesome
+      - cmake
+      - make
+      - gcc
+      - gcc-c++
+      - lua
+      - lua-libs
+      - lua-devel
+      - lua-ldoc
+      - lua-lgi
+      - ImageMagick
+      - cairo-devel
+      - dbus-devel
+      - gdk-pixbuf2-devel
+      - glib2-devel
+      - libX11-devel 
+      - libxcb-devel 
+      - libxdg-basedir-devel 
+      - libxkbcommon-devel 
+      - libxkbcommon-x11-devel 
+      - rubygem-asciidoctor 
+      - startup-notification-devel 
+      - xcb-util-cursor-devel 
+      - xcb-util-devel 
+      - xcb-util-keysyms-devel 
+      - xcb-util-wm-devel 
+      - xcb-util-xrm-devel 
+      - xmlto 
+      - xorg-x11-proto-devel 
+      - gdk-pixbuf2 
+      - gdk-pixbuf2-modules 
+      - glib2 
+      - rpm-build
+
+- name: Clone Awesome
+  ansible.builtin.git:
+    repo: https://github.com/awesomeWM/awesome.git
+    dest: "{{ ansible_env.HOME }}/awesome"
+
+- name: make Awesome
+  make:
+    chdir: "/home/qlass/awesome"
+
+- name: make install Awesome
+  become: true
+  make:
+    chdir: "/home/qlass/awesome"
+    target: install
