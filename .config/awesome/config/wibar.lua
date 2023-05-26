@@ -2,12 +2,14 @@ local awful = require("awful")
 local wibox = require("wibox")
 local beautiful = require("beautiful")
 local gears = require("gears")
-
 local clock_format = "%H:%M"
+local naughty = require("naughty")
+local widgets = require("widgets")
 
-local clock_local = wibox.widget.textclock("%H:%M")
-local clock_utc = wibox.widget.textclock(" " .. "%H:%M %Z", nil, "UTC")
-clock_utc.visible = false
+local volume_widget = wibox.widget({widget = wibox.widget.textbox})
+volume_widget:connect_signal("volume::update", function(_, level)
+    volume_widget.text = "󰕾  " .. level
+end)
 
 local date = wibox.widget.textclock("%a %b %d %Y")
 
@@ -29,21 +31,12 @@ local wrap_bg = function(widgets)
     })
 end
 
-local clock = function()
-    local clock = wrap_bg({
-        {widget = clock_local, id = "text_role"},
-        {widget = clock_utc, id = "text_role"},
-        widget = wibox.layout.fixed.horizontal
-    })
-    clock:connect_signal("button::press", function(_, _, _, button)
-        if button == 1 then
-            clock_local.visible = not clock_local.visible
-            clock_utc.visible = not clock_utc.visible
-        end
-    end)
-    return clock
-end
+local update_volume = function(widget, status)
+    local volume3 = string.match(status, "(%d?%d?%d)%%")
+    widget:emit_signal("volume::update", volume3 .. "%")
 
+end
+awful.widget.watch("amixer sget Master", 1, update_volume, volume_widget)
 -- @DOC_FOR_EACH_SCREEN@
 screen.connect_signal("request::desktop_decoration", function(s)
     -- Each screen has its own tag table.
@@ -97,11 +90,12 @@ screen.connect_signal("request::desktop_decoration", function(s)
                     { -- Right
                         layout = wibox.layout.fixed.horizontal,
                         spacing = beautiful.spacing,
+                        wrap_bg(volume_widget),
                         wrap_bg(date)
                     }
                 },
                 {
-                    clock(),
+                    wrap_bg(widgets.clock()),
                     valign = "center",
                     halign = "center",
                     layout = wibox.container.place,
