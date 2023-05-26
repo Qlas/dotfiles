@@ -1,43 +1,63 @@
-local gears = require("gears")
-
-local theme_assets = require("beautiful.theme_assets")
 local xresources = require("beautiful.xresources")
 local dpi = xresources.apply_dpi
 
-local gfs = require("gears.filesystem")
+local gears = require("gears")
+local naughty = require("naughty")
+local constants = require("constants")
+
 local theme_path = gears.filesystem.get_configuration_dir() .. "config/"
 
 local theme = {}
 
-theme.font = "sans 8"
+theme.transparent = "#00000000"
+theme.font = "JetBrains Mono Nerd Font Bold 10"
 
-theme.bg_normal = "#222222"
-theme.bg_focus = "#535d6c"
-theme.bg_urgent = "#ff0000"
-theme.bg_minimize = "#444444"
+theme.black = "#16161D"
+theme.red = "#E46876"
+theme.yellow = "#F2D98C"
+theme.orange = "#FFA066"
+theme.green = "#A8C98F"
+theme.white = "#D3D3D3"
+
+-- bg
+theme.bg_normal = theme.black
+theme.bg_focus = theme.red
+theme.bg_urgent = theme.red
 theme.bg_systray = theme.bg_normal
 
-theme.fg_normal = "#aaaaaa"
-theme.fg_focus = "#ffffff"
-theme.fg_urgent = "#ffffff"
-theme.fg_minimize = "#ffffff"
+-- fg
+theme.fg_normal = theme.white
+theme.fg_focus = theme.yellow
+theme.fg_urgent = theme.white
 
-theme.useless_gap = dpi(0)
+-- spacing
+theme.spacing = dpi(5)
+theme.spacing_md = dpi(12)
+theme.spacing_lg = dpi(16)
+theme.spacing_xl = dpi(20)
+
+-- border
+theme.useless_gap = dpi(5)
 theme.border_width = dpi(1)
-theme.border_normal = "#000000"
-theme.border_focus = "#535d6c"
-theme.border_marked = "#91231c"
+theme.border_radius = dpi(10)
+theme.border_focus = theme.bg_focus
+theme.border_normal = theme.bg_normal
 
-theme.menu_height = dpi(15)
-theme.menu_width = dpi(100)
+-- taglist
+theme.taglist_bg = theme.bg_normal
+theme.taglist_bg_focus = theme.green
+theme.taglist_bg_urgent = theme.red
+theme.taglist_fg_focus = theme.bg_normal
+theme.taglist_fg_occupied = theme.green
 
--- Define the image to load
+-- wallpaper
 theme.wallpaper = theme_path .. "background.jpg"
 
--- Generate Awesome icon:
-theme.awesome_icon = theme_assets.awesome_icon(theme.menu_height,
-                                               theme.bg_focus, theme.fg_focus)
+-- bar
+theme.bar_height = dpi(40)
 
-theme.icon_theme = nil
+-- system tray
+theme.systray_icon_spacing = theme.spacing
+theme.systray_max_rows = 7
 
 return theme

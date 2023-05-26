@@ -1,11 +1,50 @@
 local awful = require("awful")
 local wibox = require("wibox")
+local beautiful = require("beautiful")
+local gears = require("gears")
 
--- Keyboard map indicator and switcher
-mykeyboardlayout = awful.widget.keyboardlayout()
+local clock_format = "%H:%M"
 
--- Create a textclock widget
-mytextclock = wibox.widget.textclock()
+local visible = true
+local clock_local = wibox.widget.textclock("%H:%M")
+local clock_utc = wibox.widget.textclock(" " .. "%H:%M %Z", nil, "UTC")
+clock_utc.visible = false
+local date = wibox.widget.textclock("%a %b %d %Y")
+
+local wrap_bg = function(widgets, visible)
+    if type(visible) == "bool" then visible = true end
+    return wibox.widget({
+        {
+            widgets,
+            left = beautiful.spacing_lg,
+            right = beautiful.spacing_lg,
+            top = beautiful.spacing,
+            bottom = beautiful.spacing,
+            widget = wibox.container.margin
+        },
+        shape = function(cr, width, height)
+            gears.shape.rounded_rect(cr, width, height, 20)
+        end,
+        bg = beautiful.bg_normal,
+        widget = wibox.container.background,
+        visible = visible
+    })
+end
+
+local clock = function()
+    local clock = wrap_bg({
+        {widget = clock_local, id = "text_role"},
+        {widget = clock_utc, id = "text_role"},
+        widget = wibox.layout.fixed.horizontal
+    })
+    clock:connect_signal("button::press", function(_, _, _, button)
+        if button == 1 then
+            clock_local.visible = not clock_local.visible
+            clock_utc.visible = not clock_utc.visible
+        end
+    end)
+    return clock
+end
 
 -- @DOC_FOR_EACH_SCREEN@
 screen.connect_signal("request::desktop_decoration", function(s)
@@ -13,63 +52,68 @@ screen.connect_signal("request::desktop_decoration", function(s)
     awful.tag({"1", "2", "3", "4", "5", "6", "7", "8", "9"}, s,
               awful.layout.layouts[1])
 
-    -- Create a promptbox for each screen
-    s.mypromptbox = awful.widget.prompt()
-
-    -- Create an imagebox widget which will contain an icon indicating which layout we're using.
-    -- We need one layoutbox per screen.
-    s.mylayoutbox = awful.widget.layoutbox {
-        screen = s,
-        buttons = {
-            awful.button({}, 1, function() awful.layout.inc(1) end),
-            awful.button({}, 3, function() awful.layout.inc(-1) end),
-            awful.button({}, 4, function() awful.layout.inc(-1) end),
-            awful.button({}, 5, function() awful.layout.inc(1) end)
-        }
-    }
-
     -- Create a taglist widget
-    s.mytaglist = awful.widget.taglist {
+    s.mytaglist = awful.widget.taglist({
         screen = s,
+        buttons = taglist_buttons,
         filter = awful.widget.taglist.filter.all,
-        buttons = {
-            awful.button({}, 1, function(t) t:view_only() end),
-            awful.button({modkey}, 1, function(t)
-                if client.focus then client.focus:move_to_tag(t) end
-            end), awful.button({}, 3, awful.tag.viewtoggle),
-            awful.button({modkey}, 3, function(t)
-                if client.focus then client.focus:toggle_tag(t) end
-            end),
-            awful.button({}, 4, function(t)
-                awful.tag.viewprev(t.screen)
-            end),
-            awful.button({}, 5, function(t)
-                awful.tag.viewnext(t.screen)
-            end)
+        layout = {
+            layout = wibox.layout.fixed.horizontal,
+            spacing = beautiful.spacing
+        },
+        style = {shape = gears.shape.circle},
+        widget_template = {
+            {
+                {
+                    {id = "text_role", widget = wibox.widget.textbox},
+                    layout = wibox.layout.fixed.horizontal
+                },
+                left = beautiful.spacing,
+                right = beautiful.spacing,
+                widget = wibox.container.margin
+            },
+            id = "background_role",
+            widget = wibox.container.background
         }
-    }
+    })
 
     -- @DOC_WIBAR@
     -- Create the wibox
     s.mywibox = awful.wibar {
+        height = beautiful.bar_height,
+        type = "dock",
+        bg = "#00000000",
         position = "top",
         screen = s,
-        -- @DOC_SETUP_WIDGETS@
         widget = {
-            layout = wibox.layout.align.horizontal,
-            { -- Left widgets
-                layout = wibox.layout.fixed.horizontal,
-                mylauncher,
-                s.mytaglist,
-                s.mypromptbox
+            {
+                layout = wibox.layout.stack,
+                {
+                    layout = wibox.layout.align.horizontal,
+                    { -- Left
+                        layout = wibox.layout.fixed.horizontal,
+                        wrap_bg(s.mytaglist)
+                    },
+
+                    nil,
+                    { -- Right
+                        layout = wibox.layout.fixed.horizontal,
+                        spacing = beautiful.spacing,
+                        wrap_bg(date)
+                    }
+                },
+                {
+                    clock(),
+                    valign = "center",
+                    halign = "center",
+                    layout = wibox.container.place,
+                    visible = visible
+                }
             },
-            { -- Right widgets
-                layout = wibox.layout.fixed.horizontal,
-                mykeyboardlayout,
-                wibox.widget.systray(),
-                mytextclock,
-                s.mylayoutbox
-            }
+            left = beautiful.useless_gap * 2,
+            right = beautiful.useless_gap * 2,
+            top = beautiful.useless_gap,
+            widget = wibox.container.margin
         }
     }
 end)
