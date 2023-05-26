@@ -5,14 +5,13 @@ local gears = require("gears")
 
 local clock_format = "%H:%M"
 
-local visible = true
 local clock_local = wibox.widget.textclock("%H:%M")
 local clock_utc = wibox.widget.textclock(" " .. "%H:%M %Z", nil, "UTC")
 clock_utc.visible = false
+
 local date = wibox.widget.textclock("%a %b %d %Y")
 
-local wrap_bg = function(widgets, visible)
-    if type(visible) == "bool" then visible = true end
+local wrap_bg = function(widgets)
     return wibox.widget({
         {
             widgets,
@@ -26,8 +25,7 @@ local wrap_bg = function(widgets, visible)
             gears.shape.rounded_rect(cr, width, height, 20)
         end,
         bg = beautiful.bg_normal,
-        widget = wibox.container.background,
-        visible = visible
+        widget = wibox.container.background
     })
 end
 
