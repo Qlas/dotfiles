@@ -5,13 +5,11 @@ local gears = require("gears")
 local clock_format = "%H:%M"
 local naughty = require("naughty")
 local widgets = require("widgets")
-
-local volume_widget = wibox.widget({widget = wibox.widget.textbox})
-volume_widget:connect_signal("volume::update", function(_, level)
-    volume_widget.text = "󰕾  " .. level
-end)
-
 local date = wibox.widget.textclock("%a %b %d %Y")
+local utils = require("utils")
+
+local volume_widget = widgets.volume()
+local volume_watcher = utils.volume(volume_widget)
 
 local wrap_bg = function(widgets)
     return wibox.widget({
@@ -31,12 +29,6 @@ local wrap_bg = function(widgets)
     })
 end
 
-local update_volume = function(widget, status)
-    local volume3 = string.match(status, "(%d?%d?%d)%%")
-    widget:emit_signal("volume::update", volume3 .. "%")
-
-end
-awful.widget.watch("amixer sget Master", 1, update_volume, volume_widget)
 -- @DOC_FOR_EACH_SCREEN@
 screen.connect_signal("request::desktop_decoration", function(s)
     -- Each screen has its own tag table.
