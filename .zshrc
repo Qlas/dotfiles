@@ -34,6 +34,8 @@ source ~/powerlevel10k/powerlevel10k.zsh-theme
 
 alias config='/usr/bin/git --git-dir=$HOME/dotfiles/ --work-tree=$HOME'
 
+eval "$(navi widget zsh)"
+
 #Plugins
 
 source /home/qlass/.zsh/zsh-autocomplete/zsh-autocomplete.plugin.zsh
