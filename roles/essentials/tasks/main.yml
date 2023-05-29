@@ -4,4 +4,6 @@
     name:
       - kitty
       - rofi
+      - zsh
     update_cache: true
+
