@@ -3,12 +3,14 @@ local awful = require("awful")
 local beautiful = require("beautiful")
 
 local get_icon = function(level, status)
-    if status == "off" then return "off" end
+    if status == "off" then return "󰸈" end
     level = tonumber(level)
-    if level >= 60 then
-        return " "
+    if level >= 75 then
+        return "󰕾"
+    elseif level >= 40 then
+        return "󰸈"
     elseif level >= 10 then
-        return " "
+        return "󰸈"
     end
 end
 
