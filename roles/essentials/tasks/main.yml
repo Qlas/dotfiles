@@ -6,5 +6,16 @@
       - rofi
       - zsh
       - navi
+      - openssl-devel
+      - tk-devel
+      - readline-devel
+      - sqlite-devel
     update_cache: true
 
+
+- name: Install pyenv
+  ansible.builtin.shell:
+    cmd: curl https://pyenv.run | bash
+    creates: "{{ ansible_env.HOME }}/.pyenv"
+    
+   
