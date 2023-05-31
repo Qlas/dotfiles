@@ -10,6 +10,8 @@
       - tk-devel
       - readline-devel
       - sqlite-devel
+      - libpq-devel
+      - neofetch
     update_cache: true
 
 
