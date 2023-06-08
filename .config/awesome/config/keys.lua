@@ -223,5 +223,9 @@ awful.keyboard.append_global_keybindings({
     -- rofi
     awful.key({modkey, modkey}, "d",
               function() awful.spawn.with_shell("rofi -show drun") end,
-              {description = "show Rofi", group = "launcher"})
+              {description = "show Rofi", group = "launcher"}),
+
+    -- betterlockscreen
+    
+    awful.key({modkey, "Control", "Shift"}, "l", function() awful.spawn.with_shell("betterlockscreen -l --display 1") end, {description = "Lock screen", group = "Locking"})
 })

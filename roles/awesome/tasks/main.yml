@@ -34,6 +34,21 @@
       - gdk-pixbuf2-modules 
       - glib2 
       - rpm-build
+      - autoconf 
+      - automake 
+      - cairo-devel 
+      - fontconfig 
+      - libev-devel 
+      - libjpeg-turbo-devel 
+      - libXinerama 
+      - libxkbcommon-devel 
+      - libxkbcommon-x11-devel 
+      - libXrandr 
+      - pam-devel 
+      - pkgconf 
+      - xcb-util-image-devel 
+      - xcb-util-xrm-devel
+      - xset
 
 - name: Clone Awesome
   ansible.builtin.git:
@@ -49,3 +64,21 @@
   make:
     chdir: "/home/qlass/awesome"
     target: install
+
+
+- name: Clone i3lock-color
+  ansible.builtin.git:
+    repo: https://github.com/Raymo111/i3lock-color.git
+    dest: "{{ ansible_env.HOME }}/i3lock-color"
+
+- name: Install i3lock-color
+  ansible.builtin.shell:
+    cmd: "{{ ansible_env.HOME }}/i3lock-color/install-i3lock-color.sh"
+    creates: "/usr/bin/i3lock"
+
+- name: Install betterlockscreen
+  ansible.builtin.shell:
+    cmd: wget https://raw.githubusercontent.com/betterlockscreen/betterlockscreen/main/install.sh -O - -q | sudo bash -s system
+
+    # creates: "{{ ansible_env.home }}/.pyenv"
+ 
