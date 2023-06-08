@@ -3,7 +3,7 @@ local hotkeys_popup = require('awful.hotkeys_popup')
 local constants = require("constants")
 local modkey = constants.mod
 local terminal = constants.terminal
-
+local gears = require('gears')
 -- General Awesome keys
 awful.keyboard.append_global_keybindings({
     awful.key({modkey}, "s", hotkeys_popup.show_help,
@@ -29,9 +29,9 @@ awful.keyboard.append_global_keybindings({
 
 -- Tags related keybindings
 awful.keyboard.append_global_keybindings({
-    awful.key({modkey}, "Left", awful.tag.viewprev,
+    awful.key({modkey, "Mod1"}, "Left", awful.tag.viewprev,
               {description = "view previous", group = "tag"}),
-    awful.key({modkey}, "Right", awful.tag.viewnext,
+    awful.key({modkey, "Mod1"}, "Right", awful.tag.viewnext,
               {description = "view next", group = "tag"}),
     awful.key({modkey}, "Escape", awful.tag.history.restore,
               {description = "go back", group = "tag"})
@@ -39,18 +39,18 @@ awful.keyboard.append_global_keybindings({
 
 -- Focus related keybindings
 awful.keyboard.append_global_keybindings({
-    awful.key({modkey}, "j", function() awful.client.focus.byidx(1) end,
+    awful.key({modkey}, "Right", function() awful.client.focus.byidx(1) end,
               {description = "focus next by index", group = "client"}),
-    awful.key({modkey}, "k", function() awful.client.focus.byidx(-1) end,
+    awful.key({modkey}, "Left", function() awful.client.focus.byidx(-1) end,
               {description = "focus previous by index", group = "client"}),
     awful.key({modkey}, "Tab", function()
         awful.client.focus.history.previous()
         if client.focus then client.focus:raise() end
     end, {description = "go back", group = "client"}),
-    awful.key({modkey, "Control"}, "j",
+    awful.key({modkey, "Control"}, "Right",
               function() awful.screen.focus_relative(1) end,
               {description = "focus the next screen", group = "screen"}),
-    awful.key({modkey, "Control"}, "k",
+    awful.key({modkey, "Control"}, "Left",
               function() awful.screen.focus_relative(-1) end,
               {description = "focus the previous screen", group = "screen"}),
     awful.key({modkey, "Control"}, "n", function()
@@ -62,10 +62,12 @@ awful.keyboard.append_global_keybindings({
 
 -- Layout related keybindings
 awful.keyboard.append_global_keybindings({
-    awful.key({modkey, "Shift"}, "j", function() awful.client.swap.byidx(1) end,
-              {description = "swap with next client by index", group = "client"}),
-    awful.key({modkey, "Shift"}, "k",
-              function() awful.client.swap.byidx(-1) end, {
+    awful.key({modkey, "Shift"}, "Right",
+              function() awful.client.swap.byidx(1) end, {
+        description = "swap with next client by index",
+        group = "client"
+    }), awful.key({modkey, "Shift"}, "Left",
+                  function() awful.client.swap.byidx(-1) end, {
         description = "swap with previous client by index",
         group = "client"
     }), awful.key({modkey}, "u", awful.client.urgent.jumpto,
@@ -191,8 +193,34 @@ client.connect_signal("request::default_keybindings", function()
         awful.key({modkey, "Control"}, "Return",
                   function(c) c:swap(awful.client.getmaster()) end,
                   {description = "move to master", group = "client"}),
-        awful.key({modkey}, "o", function(c) c:move_to_screen() end,
-                  {description = "move to screen", group = "client"}),
+        awful.key({modkey, "Control", "Shift"}, "Right",
+                  function(c) c:move_to_screen(c.screen.index + 1) end,
+                  {description = "move to screen right", group = "client"}),
+        awful.key({modkey, "Control", "Shift"}, "Left",
+                  function(c) c:move_to_screen(c.screen.index - 1) end,
+                  {description = "move to screen left", group = "client"}),
+
+        awful.key({modkey, "Shift", "Mod1"}, "Left", function()
+            local c = client.focus
+            if not c then return end
+            local t = c.screen.selected_tag
+            local tags = c.screen.tags
+            local idx = t.index
+            local newtag = tags[gears.math.cycle(#tags, idx - 1)]
+            c:move_to_tag(newtag)
+            newtag:view_only()
+        end, {description = "move client to previous tag", group = "tag"}),
+
+        awful.key({modkey, "Shift", "Mod1"}, "Right", function()
+            local c = client.focus
+            if not c then return end
+            local t = c.screen.selected_tag
+            local tags = c.screen.tags
+            local idx = t.index
+            local newtag = tags[gears.math.cycle(#tags, idx + 1)]
+            c:move_to_tag(newtag)
+            newtag:view_only()
+        end, {description = "move client to next tag", group = "tag"}),
         awful.key({modkey}, "t", function(c) c.ontop = not c.ontop end,
                   {description = "toggle keep on top", group = "client"}),
         awful.key({modkey}, "m", function(c)
@@ -213,12 +241,6 @@ end)
 -- Custom
 
 awful.keyboard.append_global_keybindings({
-    awful.key({modkey, "Control"}, "Right",
-              function() awful.screen.focus_relative(1) end,
-              {description = "focus the next screen", group = "screen"}),
-    awful.key({modkey, "Control"}, "Left",
-              function() awful.screen.focus_relative(-1) end,
-              {description = "focus the previous screen", group = "screen"}),
 
     -- rofi
     awful.key({modkey, modkey}, "d",
