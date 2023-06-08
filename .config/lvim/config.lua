@@ -29,7 +29,11 @@ require("lvim.lsp.manager").setup("pyright")
 local formatters = require "lvim.lsp.null-ls.formatters"
 formatters.setup {
     {name = "black"}, {name = "isort"},
-    {command = "lua-format", filetypes = {"lua"}}
+    {command = "lua-format", filetypes = {"lua"}},
+    {command = "sql-formatter", filetypes = {"sql"}},
+    {command = 'prettier', filetypes = {"markdown", "yaml"}},
+    {command = "shfmt", filetypes = {"sh"}}
+
 }
 lvim.format_on_save.enabled = true
 lvim.format_on_save.pattern = {"*"}
@@ -39,7 +43,9 @@ local linters = require "lvim.lsp.null-ls.linters"
 linters.setup {
     {command = "flake8", filetypes = {"python"}},
     {command = "mypy", filetypes = {"python"}},
-    {command = "luacheck", filetypes = {"lua"}}
+    {command = "luacheck", filetypes = {"lua"}},
+    {command = "markdownlint", filetypes = {"markdown"}},
+    {command = "shellcheck", filetypes = {"sh"}}
 }
 
 -- setup debug adapter
@@ -74,6 +80,9 @@ lvim.builtin.nvimtree.setup.disable_netrw = true
 lvim.builtin.nvimtree.setup.hijack_cursor = true
 lvim.builtin.nvimtree.setup.view.number = true
 lvim.builtin.nvimtree.setup.view.relativenumber = true
-lvim.builtin.nvimtree.setup.filters.custom = {"__pycache__", ".mypy_cache"}
+lvim.builtin.nvimtree.setup.filters.custom = {
+    "__pycache__", ".mypy_cache", ".venv", ".git"
+}
+
 lvim.builtin.nvimtree.setup.diagnostics.enable = true
 lvim.builtin.nvimtree.setup.diagnostics.show_on_dirs = true
