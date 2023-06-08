@@ -69,3 +69,11 @@ lvim.builtin.which_key.mappings["C"] = {
     name = "Python",
     c = {"<cmd>lua require('swenv.api').pick_venv()<cr>", "Choose Env"}
 }
+
+lvim.builtin.nvimtree.setup.disable_netrw = true
+lvim.builtin.nvimtree.setup.hijack_cursor = true
+lvim.builtin.nvimtree.setup.view.number = true
+lvim.builtin.nvimtree.setup.view.relativenumber = true
+lvim.builtin.nvimtree.setup.filters.custom = {"__pycache__", ".mypy_cache"}
+lvim.builtin.nvimtree.setup.diagnostics.enable = true
+lvim.builtin.nvimtree.setup.diagnostics.show_on_dirs = true
