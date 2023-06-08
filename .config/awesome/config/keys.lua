@@ -229,5 +229,17 @@ awful.keyboard.append_global_keybindings({
 
     awful.key({modkey, "Control", "Shift"}, "l", function()
         awful.spawn.with_shell("betterlockscreen -l --display 1")
-    end, {description = "Lock screen", group = "Locking"})
+    end, {description = "Lock screen", group = "Locking"}), -- volume
+    awful.key({modkey}, "Page_Up",
+              function() awful.spawn.with_shell("amixer sset Master 5%+") end,
+              {description = "Volume Up", group = "volume"}),
+
+    awful.key({modkey}, "Page_Down",
+              function() awful.spawn.with_shell("amixer sset Master 5%-") end,
+              {description = "Volume Down", group = "volume"}),
+
+    awful.key({modkey}, "End", function()
+        awful.spawn.with_shell("amixer sset Master toggle")
+    end, {description = "Volume On/Off", group = "volume"})
+
 })

@@ -2,8 +2,6 @@ local awful = require("awful")
 local wibox = require("wibox")
 local beautiful = require("beautiful")
 local gears = require("gears")
-local clock_format = "%H:%M"
-local naughty = require("naughty")
 local widgets = require("widgets")
 local date = wibox.widget.textclock("%a %b %d %Y")
 local utils = require("utils")
@@ -11,10 +9,10 @@ local utils = require("utils")
 local volume_widget = widgets.volume()
 local volume_watcher = utils.volume(volume_widget)
 
-local wrap_bg = function(widgets)
+local wrap_bg = function(widgets_)
     return wibox.widget({
         {
-            widgets,
+            widgets_,
             left = beautiful.spacing_lg,
             right = beautiful.spacing_lg,
             top = beautiful.spacing,

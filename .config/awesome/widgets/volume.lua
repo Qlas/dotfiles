@@ -1,5 +1,4 @@
 local wibox = require("wibox")
-local awful = require("awful")
 local beautiful = require("beautiful")
 
 local get_icon = function(level, status)
@@ -8,9 +7,9 @@ local get_icon = function(level, status)
     if level >= 75 then
         return "󰕾"
     elseif level >= 40 then
-        return "󰸈"
-    elseif level >= 10 then
-        return "󰸈"
+        return "󰖀"
+    else
+        return "󰕿"
     end
 end
 

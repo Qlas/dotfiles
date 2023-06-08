@@ -1,10 +1,9 @@
 local awful = require("awful")
-local naughty = require("naughty")
 
 local update_volume = function(widget, status)
 
-    level, status = string.match(status, "%[(%d+)%%%] %[(%a+)%]")
-    widget:emit_signal("volume::update", level, status)
+    local level, volume_status = string.match(status, "%[(%d+)%%%] %[(%a+)%]")
+    widget:emit_signal("volume::update", level, volume_status)
 end
 
 return function(widget)

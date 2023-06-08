@@ -1,9 +1,7 @@
 pcall(require, "luarocks.loader")
 
 local gears = require("gears")
-local awful = require("awful")
 require("awful.autofocus")
-local wibox = require("wibox")
 local beautiful = require("beautiful")
 local naughty = require("naughty")
 require("awful.hotkeys_popup.keys")
