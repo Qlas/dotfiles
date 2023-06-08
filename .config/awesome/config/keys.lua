@@ -250,7 +250,7 @@ awful.keyboard.append_global_keybindings({
     -- betterlockscreen
 
     awful.key({modkey, "Control", "Shift"}, "l", function()
-        awful.spawn.with_shell("betterlockscreen -l --display 1")
+        awful.spawn.with_shell("betterlockscreen -l --display 1 --off 10")
     end, {description = "Lock screen", group = "Locking"}), -- volume
     awful.key({modkey}, "Page_Up",
               function() awful.spawn.with_shell("amixer sset Master 5%+") end,
