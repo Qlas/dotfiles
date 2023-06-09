@@ -12,6 +12,7 @@
       - sqlite-devel
       - libpq-devel
       - neofetch
+      - htop
       - flameshot
     update_cache: true
 
