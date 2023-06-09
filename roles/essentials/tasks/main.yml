@@ -12,14 +12,14 @@
       - sqlite-devel
       - libpq-devel
       - neofetch
+      - flameshot
     update_cache: true
-
 
 - name: Install pyenv
   ansible.builtin.shell:
     cmd: curl https://pyenv.run | bash
     creates: "{{ ansible_env.HOME }}/.pyenv"
-    
+
 - name: Install dnf-plugins-core
   become: true
   ansible.builtin.dnf:
@@ -35,9 +35,9 @@
   become: true
   ansible.builtin.dnf:
     name:
-      - docker-ce 
-      - docker-ce-cli 
-      - containerd.io 
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
       - docker-buildx-plugin
       - docker-compose-plugin
 
@@ -51,6 +51,6 @@
 - name: adding existing user '{{ user }}' to group sudo
   become: true
   ansible.builtin.user:
-    name: '{{ ansible_env.USER }}'
+    name: "{{ ansible_env.USER }}"
     groups: docker
     append: yes

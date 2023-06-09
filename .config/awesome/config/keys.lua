@@ -262,6 +262,9 @@ awful.keyboard.append_global_keybindings({
 
     awful.key({modkey}, "End", function()
         awful.spawn.with_shell("amixer sset Master toggle")
-    end, {description = "Volume On/Off", group = "volume"})
+    end, {description = "Volume On/Off", group = "volume"}), -- ScreenShot
+    awful.key({modkey}, "Print",
+              function() awful.spawn.with_shell("flameshot gui") end,
+              {description = "Screenshot GUI", group = "ScreenShot"})
 
 })
