@@ -1,7 +1,7 @@
 - name: Install Packages
   become: true
   ansible.builtin.dnf:
-     name:
+    name:
       - cmake
       - make
       - gcc
@@ -16,37 +16,37 @@
       - dbus-devel
       - gdk-pixbuf2-devel
       - glib2-devel
-      - libX11-devel 
-      - libxcb-devel 
-      - libxdg-basedir-devel 
-      - libxkbcommon-devel 
-      - libxkbcommon-x11-devel 
-      - rubygem-asciidoctor 
-      - startup-notification-devel 
-      - xcb-util-cursor-devel 
-      - xcb-util-devel 
-      - xcb-util-keysyms-devel 
-      - xcb-util-wm-devel 
-      - xcb-util-xrm-devel 
-      - xmlto 
-      - xorg-x11-proto-devel 
-      - gdk-pixbuf2 
-      - gdk-pixbuf2-modules 
-      - glib2 
+      - libX11-devel
+      - libxcb-devel
+      - libxdg-basedir-devel
+      - libxkbcommon-devel
+      - libxkbcommon-x11-devel
+      - rubygem-asciidoctor
+      - startup-notification-devel
+      - xcb-util-cursor-devel
+      - xcb-util-devel
+      - xcb-util-keysyms-devel
+      - xcb-util-wm-devel
+      - xcb-util-xrm-devel
+      - xmlto
+      - xorg-x11-proto-devel
+      - gdk-pixbuf2
+      - gdk-pixbuf2-modules
+      - glib2
       - rpm-build
-      - autoconf 
-      - automake 
-      - cairo-devel 
-      - fontconfig 
-      - libev-devel 
-      - libjpeg-turbo-devel 
-      - libXinerama 
-      - libxkbcommon-devel 
-      - libxkbcommon-x11-devel 
-      - libXrandr 
-      - pam-devel 
-      - pkgconf 
-      - xcb-util-image-devel 
+      - autoconf
+      - automake
+      - cairo-devel
+      - fontconfig
+      - libev-devel
+      - libjpeg-turbo-devel
+      - libXinerama
+      - libxkbcommon-devel
+      - libxkbcommon-x11-devel
+      - libXrandr
+      - pam-devel
+      - pkgconf
+      - xcb-util-image-devel
       - xcb-util-xrm-devel
       - xset
 
@@ -65,7 +65,6 @@
     chdir: "/home/qlass/awesome"
     target: install
 
-
 - name: Clone i3lock-color
   ansible.builtin.git:
     repo: https://github.com/Raymo111/i3lock-color.git
@@ -79,6 +78,3 @@
 - name: Install betterlockscreen
   ansible.builtin.shell:
     cmd: wget https://raw.githubusercontent.com/betterlockscreen/betterlockscreen/main/install.sh -O - -q | sudo bash -s system
-
-    # creates: "{{ ansible_env.home }}/.pyenv"
- 
