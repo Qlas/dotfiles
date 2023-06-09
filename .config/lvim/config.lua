@@ -1,5 +1,5 @@
 lvim.plugins = {
-    "AckslD/swenv.nvim", "stevearc/dressing.nvim",
+    "rcarriga/nvim-notify", "stevearc/dressing.nvim",
     "mfussenegger/nvim-dap-python", "nvim-neotest/neotest",
     "nvim-neotest/neotest-python", "f-person/git-blame.nvim", {
         "rmagatti/goto-preview",
@@ -23,6 +23,10 @@ lvim.plugins = {
         config = function() vim.fn["mkdp#util#install"]() end
     }
 }
+
+-- Setting nvim-notify as default vim notification system
+vim.notify = require("notify")
+
 -- automatically install python syntax highlighting
 lvim.builtin.treesitter.ensure_installed = {"python"}
 
@@ -58,25 +62,32 @@ pcall(function()
     require("dap-python").setup(mason_path .. "packages/debugpy/venv/bin/python")
 end)
 
-require('swenv').setup({
-    -- Should return a list of tables with a `name` and a `path` entry each.
-    -- Gets the argument `venvs_path` set below.
-    -- By default just lists the entries in `venvs_path`.
-    get_venvs = function(venvs_path)
-        return require('swenv.api').get_venvs(venvs_path)
-    end,
-    -- Path passed to `get_venvs`.
-    venvs_path = vim.fn.expand('.'),
-    -- Something to do after setting an environment, for example call vim.cmd.LspRestart
-    post_set_venv = function() vim.cmd("LspRestart") end
-})
-
 require('glow').setup({style = "dark", width = 120})
 
--- binding for switching
+pick_venv = function()
+    local path = vim.fn.getcwd() .. "/.venv";
+
+    if vim.fn.isdirectory(path) ~= 1 then
+        vim.notify("There is no .venv directory in the project",
+                   vim.log.levels.ERROR, {title = "Venv"})
+        return
+    end
+
+    vim.fn.setenv('VIRTUAL_ENV', path)
+
+    vim.fn.setenv('PATH', path .. '/bin' .. ':' .. vim.fn.getenv('PATH'))
+
+    vim.cmd("LspRestart")
+
+    vim.notify("Venv was set successfully.", vim.log.levels.INFO,
+               {title = "Venv"})
+
+end
+
+-- venv
 lvim.builtin.which_key.mappings["C"] = {
     name = "Python",
-    c = {"<cmd>lua require('swenv.api').pick_venv()<cr>", "Choose Env"}
+    c = {"<cmd> lua pick_venv()<cr>", "Pick Env"}
 }
 
 lvim.builtin.nvimtree.setup.disable_netrw = true
