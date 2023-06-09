@@ -134,3 +134,15 @@ export PATH
 
 alias config='/usr/bin/git --git-dir=$HOME/dotfiles/ --work-tree=$HOME'
 
+
+function cd() {
+  if [[ -d ./.venv ]] ; then
+    deactivate
+  fi
+
+  builtin cd $1
+
+  if [[ -d ./.venv ]] ; then
+    . ./.venv/bin/activate
+  fi
+}
