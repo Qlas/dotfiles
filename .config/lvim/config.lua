@@ -18,7 +18,10 @@ lvim.plugins = {
                 -- vim.cmd("nnoremap gP <cmd>lua require('goto-preview').close_all_win()<CR>")
             }
         end
-    }, {"ellisonleao/glow.nvim", config = true, cmd = "Glow"}
+    }, {"ellisonleao/glow.nvim", config = true, cmd = "Glow"}, {
+        "iamcco/markdown-preview.nvim",
+        config = function() vim.fn["mkdp#util#install"]() end
+    }
 }
 -- automatically install python syntax highlighting
 lvim.builtin.treesitter.ensure_installed = {"python"}
