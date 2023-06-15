@@ -14,6 +14,7 @@
       - neofetch
       - htop
       - flameshot
+      - wireguard-tools
     update_cache: true
 
 - name: Install pyenv
