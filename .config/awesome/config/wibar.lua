@@ -27,6 +27,18 @@ local wrap_bg = function(widgets_)
     })
 end
 
+local ip = wibox.widget({
+    font = beautiful.font,
+    align = "center",
+    valign = "center",
+    widget = wibox.widget.textbox,
+    text = ""
+})
+
+local set_ip = function(stdout) ip.text = stdout end
+
+awful.spawn.easy_async_with_shell('hostname -I | awk \'{print $1}\'', set_ip)
+
 -- @DOC_FOR_EACH_SCREEN@
 screen.connect_signal("request::desktop_decoration", function(s)
     -- Each screen has its own tag table.
@@ -80,6 +92,7 @@ screen.connect_signal("request::desktop_decoration", function(s)
                     { -- Right
                         layout = wibox.layout.fixed.horizontal,
                         spacing = beautiful.spacing,
+                        wrap_bg(ip),
                         wrap_bg(volume_widget),
                         wrap_bg(date)
                     }
