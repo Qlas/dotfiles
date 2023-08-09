@@ -1,7 +1,8 @@
 lvim.plugins = {
     "rcarriga/nvim-notify", "stevearc/dressing.nvim",
-    "mfussenegger/nvim-dap-python", "nvim-neotest/neotest",
-    "nvim-neotest/neotest-python", "f-person/git-blame.nvim", {
+    "rhysd/conflict-marker.vim", "mfussenegger/nvim-dap-python",
+    "nvim-neotest/neotest", "nvim-neotest/neotest-python",
+    "f-person/git-blame.nvim", {
         "rmagatti/goto-preview",
         config = function()
             require('goto-preview').setup {
@@ -24,6 +25,53 @@ lvim.plugins = {
     }
 }
 
+-- START OF PYTHON TESTS
+lvim.builtin.dap.active = true
+local mason_path = vim.fn.glob(vim.fn.stdpath "data" .. "/mason/")
+pcall(function()
+    require("dap-python").setup(mason_path .. "packages/debugpy/venv/bin/python")
+end)
+
+require("neotest").setup({
+    adapters = {
+        require("neotest-python")({
+            dap = {justMyCode = false, console = "integratedTerminal"},
+            runner = "pytest"
+        })
+    }
+})
+
+lvim.builtin.which_key.mappings["dm"] = {
+    "<cmd>lua require('neotest').run.run()<cr>", "Test Method"
+}
+lvim.builtin.which_key.mappings["dM"] = {
+    "<cmd>lua require('neotest').run.run({strategy = 'dap'})<cr>",
+    "Test Method DAP"
+}
+lvim.builtin.which_key.mappings["df"] = {
+    "<cmd>lua require('neotest').run.run({vim.fn.expand('%')})<cr>",
+    "Test Class"
+}
+lvim.builtin.which_key.mappings["dF"] = {
+    "<cmd>lua require('neotest').run.run({vim.fn.expand('%'), strategy = 'dap'})<cr>",
+    "Test Class DAP"
+}
+lvim.builtin.which_key.mappings["dS"] = {
+    "<cmd>lua require('neotest').summary.toggle()<cr>", "Test Summary"
+}
+
+lvim.builtin.which_key.mappings["dR"] = {
+    "<cmd>lua require('neotest').output.open({ enter = true })<cr>",
+    "Output Window"
+}
+
+-- END OF PYTHON TESTS 
+
+vim.g.mkdp_theme = 'dark'
+
+lvim.lsp.null_ls.setup.timeout_ms = 20000
+vim.lsp.buf.format({timeout_ms = 20000})
+
 vim.opt.relativenumber = true
 
 -- Setting nvim-notify as default vim notification system
@@ -42,8 +90,9 @@ formatters.setup {
     {name = "black"}, {name = "isort"},
     {command = "lua-format", filetypes = {"lua"}},
     {command = "sql-formatter", filetypes = {"sql"}},
-    {command = 'prettier', filetypes = {"markdown", "yaml"}},
-    {command = "shfmt", filetypes = {"sh"}}
+    {command = 'prettier', filetypes = {"markdown", "yaml", "json"}},
+    {command = "shfmt", filetypes = {"sh"}},
+    {command = "taplo", filetypes = {"toml"}}
 
 }
 lvim.format_on_save.enabled = true
@@ -56,7 +105,8 @@ linters.setup {
     {command = "mypy", filetypes = {"python"}},
     {command = "luacheck", filetypes = {"lua"}},
     {command = "markdownlint", filetypes = {"markdown"}},
-    {command = "shellcheck", filetypes = {"sh"}}
+    {command = "shellcheck", filetypes = {"sh"}},
+    {command = "hadolint", filetypes = {"dockerfile"}}
 }
 
 -- setup debug adapter
@@ -99,8 +149,15 @@ lvim.builtin.nvimtree.setup.hijack_cursor = true
 lvim.builtin.nvimtree.setup.view.number = true
 lvim.builtin.nvimtree.setup.view.relativenumber = true
 lvim.builtin.nvimtree.setup.filters.custom = {
-    "__pycache__", ".mypy_cache", ".venv", ".git"
+    "__pycache__", ".mypy_cache", ".venv"
 }
 
 lvim.builtin.nvimtree.setup.diagnostics.enable = true
 lvim.builtin.nvimtree.setup.diagnostics.show_on_dirs = true
+
+-- Telescope
+
+lvim.builtin.which_key.mappings["t"] = {
+    name = "Telescope",
+    l = {"<cmd> Telescope live_grep <cr>", "Live Grep"}
+}
