@@ -82,6 +82,7 @@ require("notify").setup({background_colour = "#1a1b26"})
 -- automatically install python syntax highlighting
 lvim.builtin.treesitter.ensure_installed = {"python"}
 
+require("lvim.lsp.manager").setup("rust_analyzer")
 require("lvim.lsp.manager").setup("pyright")
 
 -- setup formatting
@@ -92,7 +93,8 @@ formatters.setup {
     {command = "sql-formatter", filetypes = {"sql"}},
     {command = 'prettier', filetypes = {"markdown", "yaml", "json"}},
     {command = "shfmt", filetypes = {"sh"}},
-    {command = "taplo", filetypes = {"toml"}}
+    {command = "taplo", filetypes = {"toml"}},
+    {command = "rustfmt", filetypes = {"rust"}}
 
 }
 lvim.format_on_save.enabled = true
