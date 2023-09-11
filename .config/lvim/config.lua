@@ -1,5 +1,5 @@
 lvim.plugins = {
-    "rcarriga/nvim-notify", "stevearc/dressing.nvim",
+    "isobit/vim-caddyfile", "rcarriga/nvim-notify", "stevearc/dressing.nvim",
     "rhysd/conflict-marker.vim", "mfussenegger/nvim-dap-python",
     "nvim-neotest/neotest", "nvim-neotest/neotest-python",
     "f-person/git-blame.nvim", {
@@ -22,6 +22,15 @@ lvim.plugins = {
     }, {"ellisonleao/glow.nvim", config = true, cmd = "Glow"}, {
         "iamcco/markdown-preview.nvim",
         config = function() vim.fn["mkdp#util#install"]() end
+    }
+}
+
+require('lspconfig').pyright.setup {
+    settings = {
+        pyright = {
+            reportGeneralTypeIssues = "warning",
+            reportOptionalMemberAccess = "warning"
+        }
     }
 }
 
@@ -65,7 +74,7 @@ lvim.builtin.which_key.mappings["dR"] = {
     "Output Window"
 }
 
--- END OF PYTHON TESTS 
+-- END OF PYTHON TESTS
 
 vim.g.mkdp_theme = 'dark'
 
