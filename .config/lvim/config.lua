@@ -2,7 +2,7 @@ lvim.plugins = {
     "isobit/vim-caddyfile", "rcarriga/nvim-notify", "stevearc/dressing.nvim",
     "rhysd/conflict-marker.vim", "mfussenegger/nvim-dap-python",
     "nvim-neotest/neotest", "nvim-neotest/neotest-python",
-    "f-person/git-blame.nvim", {
+    "f-person/git-blame.nvim", "pearofducks/ansible-vim", {
         "rmagatti/goto-preview",
         config = function()
             require('goto-preview').setup {
@@ -33,6 +33,10 @@ require('lspconfig').pyright.setup {
         }
     }
 }
+
+-- Adding typst
+
+vim.filetype.add({extension = {typ = "typst"}})
 
 -- START OF PYTHON TESTS
 lvim.builtin.dap.active = true
@@ -93,6 +97,8 @@ lvim.builtin.treesitter.ensure_installed = {"python"}
 
 require("lvim.lsp.manager").setup("rust_analyzer")
 require("lvim.lsp.manager").setup("pyright")
+require("lvim.lsp.manager").setup("typst_lsp")
+require("lvim.lsp.manager").setup("ansiblels")
 
 -- setup formatting
 local formatters = require "lvim.lsp.null-ls.formatters"
@@ -117,7 +123,8 @@ linters.setup {
     {command = "luacheck", filetypes = {"lua"}},
     {command = "markdownlint", filetypes = {"markdown"}},
     {command = "shellcheck", filetypes = {"sh"}},
-    {command = "hadolint", filetypes = {"dockerfile"}}
+    {command = "hadolint", filetypes = {"dockerfile"}},
+    {command = "ansiblelint", filetypes = {"yaml.ansible"}}
 }
 
 -- setup debug adapter
