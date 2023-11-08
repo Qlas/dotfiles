@@ -1,7 +1,7 @@
 # Dotfiles
 
 This repository contains my dotfiles,
-which were created specifically for Fedora 38.
+which were created specifically for Arch Linux.
 
 ![Screenshot](images/screenshot.png)
 
