@@ -1,0 +1,4 @@
+- name: Ensure .zshrc is valid
+  ansible.builtin.shell: "mv {{ ansible_env.HOME }}/.zshrc.pre-oh-my-zsh {{ ansible_env.HOME }}/.zshrc"
+  args:
+    removes: "{{ ansible_env.HOME }}/.zshrc.pre-oh-my-zsh"
