@@ -1,0 +1,22 @@
+- name: Install essential packages
+  become: true
+  community.general.pacman:
+    name:
+      - zsh
+
+- name: Download oh-my-zsh installer
+  ansible.builtin.get_url:
+    url: https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
+    dest: "{{ ansible_env.HOME }}/.ohmyzsh_installer.sh"
+
+- name: Run oh-my-zsh installer
+  ansible.builtin.shell: "sh {{ ansible_env.HOME }}/.ohmyzsh_installer.sh"
+  args:
+    creates: "{{ ansible_env.HOME }}/.oh-my-zsh/"
+  register: install_oh_my_zsh
+
+- name: Move .zshrc
+  ansible.builtin.shell: "mv {{ ansible_env.HOME }}/.zshrc.pre-oh-my-zsh {{ ansible_env.HOME }}/.zshrc"
+  args:
+    removes: "{{ ansible_env.HOME }}/.zshrc.pre-oh-my-zsh"
+  when: install_oh_my_zsh is changed

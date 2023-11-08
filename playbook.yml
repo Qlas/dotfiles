@@ -1,7 +1,4 @@
 - hosts: localhost
-  name: Setup
-  become: false
+  name: Setup Arch Linux
   roles:
-    - essentials
-    - awesome
-    - lunar-vim
+    - zsh
