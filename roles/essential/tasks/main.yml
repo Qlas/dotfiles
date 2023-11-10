@@ -1,11 +1,9 @@
-- name: Install essential packages
-  become: true
-  community.general.pacman:
-    name:
-      - ufw
-      - neofetch
+- name: Include global-packages
+  ansible.builtin.import_tasks: install-global-packages.yml 
 
-- name: Enable ufw
-  become: true
-  community.general.ufw:
-    state: enabled
+- name: Include ufw
+  ansible.builtin.import_tasks: install-ufw.yml
+
+- name: Include paru
+  ansible.builtin.import_tasks: install-paru.yml 
+   

@@ -1,0 +1,9 @@
+- name: Install essential packages
+  become: true
+  community.general.pacman:
+    name:
+      - neofetch
+      - kitty
+      - xorg-xrandr
+      - firefox
+      - rofi

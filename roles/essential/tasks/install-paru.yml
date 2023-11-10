@@ -1,0 +1,14 @@
+- name: Install essential packages
+  become: true
+  community.general.pacman:
+    name:
+      - base-devel
+
+- name: Clone Paru
+  ansible.builtin.git:
+    repo: https://aur.archlinux.org/paru.git
+    dest: "{{ ansible_env.HOME  }}/.paru"
+  notify: Build Paru
+
+- name: Flush handlers
+  meta: flush_handlers
