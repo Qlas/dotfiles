@@ -1,4 +1,5 @@
 - hosts: localhost
   name: Setup Arch Linux
   roles:
+    - essential
     - zsh
