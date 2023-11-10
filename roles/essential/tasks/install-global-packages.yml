@@ -7,3 +7,4 @@
       - xorg-xrandr
       - firefox
       - rofi
+      - inetutils

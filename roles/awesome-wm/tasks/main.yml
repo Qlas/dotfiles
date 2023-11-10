@@ -7,11 +7,20 @@
   become: true
   community.general.pacman:
     name:
+      - alsa-utils
       - lightdm
       - lightdm-gtk-greeter
+      - flameshot
+      - imagemagick
 
 - name: Enable lightdm service
   become: true
   ansible.builtin.service:
     name: lightdm.service
     enabled: true
+
+- name: Install betterlockscreen
+  ansible.builtin.shell: paru -S betterlockscreen --noconfirm
+
+- name: Install i3lock-color
+  ansible.builtin.shell: paru -S i3lock-color --noconfirm
