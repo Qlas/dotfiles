@@ -3,6 +3,7 @@
   community.general.pacman:
     name:
       - ufw
+      - neofetch
 
 - name: Enable ufw
   become: true
