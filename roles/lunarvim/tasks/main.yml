@@ -3,6 +3,7 @@
   ansible.builtin.pacman:
     name:
       - neovim
+      - ripgrep
 
 - name: Create npm-global folder
   ansible.builtin.file:
@@ -18,10 +19,8 @@
   ansible.builtin.get_url:
     url: https://github.com/ryanoasis/nerd-fonts/raw/HEAD/patched-fonts/DroidSansMono/DroidSansMNerdFont-Regular.otf
     dest: "{{ ansible_env.HOME }}/.local/share/fonts/DroidSansMNerdFont-Regular.otf"
+  notify: Update font-cache
 
-- name: Update font-cache
-  ansible.builtin.shell:
-    cmd: fc-cache -f -v
 
 - name: Install LunarVim
   environment:
@@ -29,4 +28,3 @@
   ansible.builtin.shell:
     cmd: bash <(curl -s https://raw.githubusercontent.com/LunarVim/LunarVim/release-1.3/neovim-0.9/utils/installer/install.sh)
     creates: "{{ ansible_env.HOME }}/.local/bin/lvim"
-

@@ -4,4 +4,4 @@
     chdir: "{{ ansible_env.HOME }}/.paru"
 
 - name: Set stable Rust release
-  ansible.builtin.shell: rustup default stable 
+  ansible.builtin.shell: rustup default stable

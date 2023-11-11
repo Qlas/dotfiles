@@ -2,9 +2,14 @@
   become: true
   community.general.pacman:
     name:
-      - neofetch
+      - fastfetch
+      - btop
       - kitty
       - xorg-xrandr
       - firefox
       - rofi
       - inetutils
+      - pulseaudio
+      - fd
+      - wireguard-tools
+      - less

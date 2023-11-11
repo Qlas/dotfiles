@@ -7,8 +7,9 @@
 - name: Clone Paru
   ansible.builtin.git:
     repo: https://aur.archlinux.org/paru.git
-    dest: "{{ ansible_env.HOME  }}/.paru"
+    dest: "{{ ansible_env.HOME }}/.paru"
+    update: false
   notify: Build Paru
 
 - name: Flush handlers
-  meta: flush_handlers
+  ansible.builtin.meta: flush_handlers

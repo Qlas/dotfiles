@@ -4,3 +4,4 @@
     name:
       - tk
       - pyenv
+      - postgresql-libs

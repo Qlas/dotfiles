@@ -1,14 +1,23 @@
 - name: Include global-packages
-  ansible.builtin.import_tasks: install-global-packages.yml 
+  ansible.builtin.import_tasks: install-global-packages.yml
 
 - name: Include ufw
   ansible.builtin.import_tasks: install-ufw.yml
 
 - name: Include paru
-  ansible.builtin.import_tasks: install-paru.yml 
- 
+  ansible.builtin.import_tasks: install-paru.yml
+
 - name: Include rust
   ansible.builtin.import_tasks: install-rust.yml
 
 - name: Include python
-  ansible.builtin.import_tasks: install-python.yml 
+  ansible.builtin.import_tasks: install-python.yml
+
+- name: Include node
+  ansible.builtin.import_tasks: install-node.yml
+
+- name: Include lua
+  ansible.builtin.import_tasks: install-lua.yml
+
+- name: Include docker
+  ansible.builtin.import_tasks: install-docker.yml
