@@ -13,3 +13,4 @@
       - fd
       - wireguard-tools
       - less
+      - thunar
