@@ -16,3 +16,10 @@
       - thunar
       - xclip
       - systemd-resolvconf
+
+
+- name: Enable resolved service
+  become: true
+  ansible.builtin.service:
+    name: systemd-resolved
+    enabled: true
