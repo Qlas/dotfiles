@@ -149,4 +149,3 @@ function cd() {
 
 
 export PYTHONPATH=/usr/lib64/
-if (( RANDOM % 10 )); then printf ""; else cat ~/.anime_girl; fi
