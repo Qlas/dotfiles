@@ -4,11 +4,11 @@
 - name: Include ufw
   ansible.builtin.import_tasks: install-ufw.yml
 
-- name: Include paru
-  ansible.builtin.import_tasks: install-paru.yml
-
 - name: Include rust
   ansible.builtin.import_tasks: install-rust.yml
+
+- name: Include paru
+  ansible.builtin.import_tasks: install-paru.yml
 
 - name: Include python
   ansible.builtin.import_tasks: install-python.yml
