@@ -1,0 +1,6 @@
+- name: Install node packages
+  become: true
+  community.general.pacman:
+    name:
+      - nodejs
+      - npm

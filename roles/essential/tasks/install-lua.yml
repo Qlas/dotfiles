@@ -1,0 +1,5 @@
+- name: Install lua packages
+  become: true
+  community.general.pacman:
+    name:
+      - luarocks

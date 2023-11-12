@@ -1,0 +1,25 @@
+- name: Install awesome-git
+  ansible.builtin.shell: paru -S awesome-git --noconfirm
+  args:
+    creates: /usr/bin/awesome
+
+- name: Install essential packages
+  become: true
+  community.general.pacman:
+    name:
+      - alsa-utils
+      - lightdm
+      - lightdm-gtk-greeter
+      - flameshot
+      - imagemagick
+
+- name: Enable lightdm service
+  become: true
+  ansible.builtin.service:
+    name: lightdm.service
+    enabled: true
+
+- name: Install betterlockscreen
+  ansible.builtin.shell: paru -S betterlockscreen --noconfirm
+  args:
+    creates: /usr/bin/betterlockscreen

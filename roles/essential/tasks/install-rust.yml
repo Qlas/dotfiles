@@ -1,0 +1,9 @@
+- name: Install rustup
+  become: true
+  community.general.pacman:
+    name:
+      - rustup
+  notify: Set stable Rust release
+
+- name: Flush handlers
+  ansible.builtin.meta: flush_handlers

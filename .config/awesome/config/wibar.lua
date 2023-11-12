@@ -37,7 +37,7 @@ local ip = wibox.widget({
 
 local set_ip = function(stdout) ip.text = stdout end
 
-awful.spawn.easy_async_with_shell('hostname -I | awk \'{print $1}\'', set_ip)
+awful.spawn.easy_async_with_shell('hostname -i | awk \'{print $1}\'', set_ip)
 
 -- @DOC_FOR_EACH_SCREEN@
 screen.connect_signal("request::desktop_decoration", function(s)

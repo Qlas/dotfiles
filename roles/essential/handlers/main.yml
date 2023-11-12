@@ -1,0 +1,7 @@
+- name: Build Paru
+  ansible.builtin.command:
+    cmd: makepkg -sri
+    chdir: "{{ ansible_env.HOME }}/.paru"
+
+- name: Set stable Rust release
+  ansible.builtin.shell: rustup default stable

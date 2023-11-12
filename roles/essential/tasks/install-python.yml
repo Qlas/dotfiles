@@ -1,0 +1,7 @@
+- name: Install python packages
+  become: true
+  community.general.pacman:
+    name:
+      - tk
+      - pyenv
+      - postgresql-libs

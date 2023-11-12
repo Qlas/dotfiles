@@ -1,0 +1,16 @@
+- name: Install essential packages
+  become: true
+  community.general.pacman:
+    name:
+      - ufw
+
+- name: Enable ufw service
+  become: true
+  ansible.builtin.service:
+    name: ufw
+    enabled: true
+
+- name: Enable ufw
+  become: true
+  community.general.ufw:
+    state: enabled

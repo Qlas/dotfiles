@@ -1,6 +1,7 @@
 local wibox = require("wibox")
 local beautiful = require("beautiful")
 
+
 local get_icon = function(level, status)
     if status == "off" then return "󰸈" end
     level = tonumber(level)

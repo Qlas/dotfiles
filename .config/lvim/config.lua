@@ -1,4 +1,8 @@
+-- automatically install python syntax highlighting
+lvim.builtin.treesitter.ensure_installed = {"python"}
+
 lvim.plugins = {
+    "nvim-lua/plenary.nvim", "WhoIsSethDaniel/mason-tool-installer.nvim",
     "isobit/vim-caddyfile", "rcarriga/nvim-notify", "stevearc/dressing.nvim",
     "rhysd/conflict-marker.vim", "mfussenegger/nvim-dap-python",
     "nvim-neotest/neotest", "nvim-neotest/neotest-python",
@@ -23,6 +27,16 @@ lvim.plugins = {
         "iamcco/markdown-preview.nvim",
         config = function() vim.fn["mkdp#util#install"]() end
     }
+}
+
+require('mason-tool-installer').setup {
+    ensure_installed = {
+        'pyright', "rust-analyzer", "typst_lsp", "ansiblels", "luaformatter",
+        "luacheck", "ansible-lint", "prettier", "flake8", "mypy", "black",
+        "isort", "markdownlint", "sql-formatter", "shfmt", "taplo", "hadolint",
+        "shellcheck"
+    },
+    auto_update = true
 }
 
 require('lspconfig').pyright.setup {
@@ -91,9 +105,6 @@ vim.opt.relativenumber = true
 vim.notify = require("notify")
 
 require("notify").setup({background_colour = "#1a1b26"})
-
--- automatically install python syntax highlighting
-lvim.builtin.treesitter.ensure_installed = {"python"}
 
 require("lvim.lsp.manager").setup("rust_analyzer")
 require("lvim.lsp.manager").setup("pyright")
@@ -177,5 +188,7 @@ lvim.builtin.nvimtree.setup.diagnostics.show_on_dirs = true
 
 lvim.builtin.which_key.mappings["t"] = {
     name = "Telescope",
-    l = {"<cmd> Telescope live_grep <cr>", "Live Grep"}
+    l = {"<cmd> Telescope live_grep <cr>", "Live Grep"},
+    f = {"<cmd> Telescope find_files <cr>", "Live Grep"}
+
 }

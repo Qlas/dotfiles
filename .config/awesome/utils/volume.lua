@@ -2,7 +2,8 @@ local awful = require("awful")
 
 local update_volume = function(widget, status)
 
-    local level, volume_status = string.match(status, "%[(%d+)%%%] %[(%a+)%]")
+    local level = string.match(status, "%[(%d+)%%%]")
+    local volume_status = string.match(status, "%[(%d+)%%%]")
     widget:emit_signal("volume::update", level, volume_status)
 end
 

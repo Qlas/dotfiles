@@ -1,21 +1,22 @@
 # Dotfiles
 
 This repository contains my dotfiles,
-which were created specifically for Fedora 38.
+which were created specifically for Arch Linux.
 
 ![Screenshot](images/screenshot.png)
 
 ## Tools
 
-| Tool              | Purpose       |
-| ----------------- | ------------- |
-| Window manager    | AwesomeWM     |
-| Kitty             | Terminal      |
-| Shell             | zsh           |
-| Zsh theme         | Powerlevel10k |
-| Editor            | LunarVim      |
-| Launcher          | Rofi          |
-| Python Management | Pyenv         |
+| Tool              | Purpose           |
+| ----------------- | ----------------- |
+| Paru              | Aur helper        |
+| AwesomeWM         | Window manager    |
+| Kitty             | Terminal          |
+| zsh               | Shell             |
+| Powerlevel10k     | Zsh theme         |
+| LunarVim          | Editor            |
+| Rofi              | Launcher          |
+| Pyenv             | Python Management |
 
 ## Deployment
 

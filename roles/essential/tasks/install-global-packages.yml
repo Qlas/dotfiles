@@ -1,0 +1,25 @@
+- name: Install essential packages
+  become: true
+  community.general.pacman:
+    name:
+      - fastfetch
+      - btop
+      - kitty
+      - xorg-xrandr
+      - firefox
+      - rofi
+      - inetutils
+      - pulseaudio
+      - fd
+      - wireguard-tools
+      - less
+      - thunar
+      - xclip
+      - systemd-resolvconf
+
+
+- name: Enable resolved service
+  become: true
+  ansible.builtin.service:
+    name: systemd-resolved
+    enabled: true

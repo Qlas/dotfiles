@@ -248,10 +248,11 @@ awful.keyboard.append_global_keybindings({
               {description = "show Rofi", group = "launcher"}),
 
     -- betterlockscreen
-
     awful.key({modkey, "Control", "Shift"}, "l", function()
         awful.spawn.with_shell("betterlockscreen -l --display 1 --off 10")
-    end, {description = "Lock screen", group = "Locking"}), -- volume
+    end, {description = "Lock screen", group = "Locking"}),
+
+    -- volume
     awful.key({modkey}, "Page_Up",
               function() awful.spawn.with_shell("amixer sset Master 5%+") end,
               {description = "Volume Up", group = "volume"}),
@@ -262,7 +263,9 @@ awful.keyboard.append_global_keybindings({
 
     awful.key({modkey}, "End", function()
         awful.spawn.with_shell("amixer sset Master toggle")
-    end, {description = "Volume On/Off", group = "volume"}), -- ScreenShot
+    end, {description = "Volume On/Off", group = "volume"}),
+
+    -- ScreenShot
     awful.key({modkey}, "Print",
               function() awful.spawn.with_shell("flameshot gui") end,
               {description = "Screenshot GUI", group = "ScreenShot"})
