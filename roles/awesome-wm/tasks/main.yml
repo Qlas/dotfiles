@@ -21,6 +21,5 @@
 
 - name: Install betterlockscreen
   ansible.builtin.shell: paru -S betterlockscreen --noconfirm
-
-- name: Install i3lock-color
-  ansible.builtin.shell: paru -S i3lock-color --noconfirm
+  args:
+    creates: /usr/bin/betterlockscreen
