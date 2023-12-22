@@ -1,6 +1,6 @@
 - name: Build Paru
   ansible.builtin.command:
-    cmd: makepkg -sri
+    cmd: makepkg -sri --noconfirm
     chdir: "{{ ansible_env.HOME }}/.paru"
 
 - name: Set stable Rust release
