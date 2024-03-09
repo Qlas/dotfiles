@@ -26,6 +26,11 @@ lvim.plugins = {
     }, {"ellisonleao/glow.nvim", config = true, cmd = "Glow"}, {
         "iamcco/markdown-preview.nvim",
         config = function() vim.fn["mkdp#util#install"]() end
+    }, {
+        "ray-x/lsp_signature.nvim",
+        event = "VeryLazy",
+        opts = {},
+        config = function(_, opts) require'lsp_signature'.setup(opts) end
     }
 }
 
@@ -110,6 +115,7 @@ require("lvim.lsp.manager").setup("rust_analyzer")
 require("lvim.lsp.manager").setup("pyright")
 require("lvim.lsp.manager").setup("typst_lsp")
 require("lvim.lsp.manager").setup("ansiblels")
+require("lvim.lsp.manager").setup("rustfmt")
 
 -- setup formatting
 local formatters = require "lvim.lsp.null-ls.formatters"
@@ -119,8 +125,7 @@ formatters.setup {
     {command = "sql-formatter", filetypes = {"sql"}},
     {command = 'prettier', filetypes = {"markdown", "yaml", "json"}},
     {command = "shfmt", filetypes = {"sh"}},
-    {command = "taplo", filetypes = {"toml"}},
-    {command = "rustfmt", filetypes = {"rust"}}
+    {command = "taplo", filetypes = {"toml"}}
 
 }
 lvim.format_on_save.enabled = true
@@ -135,7 +140,8 @@ linters.setup {
     {command = "markdownlint", filetypes = {"markdown"}},
     {command = "shellcheck", filetypes = {"sh"}},
     {command = "hadolint", filetypes = {"dockerfile"}},
-    {command = "ansiblelint", filetypes = {"yaml.ansible"}}
+    {command = "ansiblelint", filetypes = {"yaml.ansible"}},
+    {command = "protolint", filetypes = {"proto"}}
 }
 
 -- setup debug adapter
