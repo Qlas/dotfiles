@@ -2,8 +2,9 @@
 lvim.builtin.treesitter.ensure_installed = {"python"}
 
 lvim.plugins = {
-    "nvim-lua/plenary.nvim", "WhoIsSethDaniel/mason-tool-installer.nvim",
-    "isobit/vim-caddyfile", "rcarriga/nvim-notify", "stevearc/dressing.nvim",
+    "nvim-lua/plenary.nvim", "nvim-neotest/nvim-nio",
+    "WhoIsSethDaniel/mason-tool-installer.nvim", "isobit/vim-caddyfile",
+    "rcarriga/nvim-notify", "stevearc/dressing.nvim",
     "rhysd/conflict-marker.vim", "mfussenegger/nvim-dap-python",
     "nvim-neotest/neotest", "nvim-neotest/neotest-python",
     "f-person/git-blame.nvim", "pearofducks/ansible-vim", {
@@ -31,14 +32,32 @@ lvim.plugins = {
         event = "VeryLazy",
         opts = {},
         config = function(_, opts) require'lsp_signature'.setup(opts) end
+    }, {
+        "mrcjkb/rustaceanvim",
+        version = "^4",
+        dependencies = {
+            "mfussenegger/nvim-dap", {"lvimuser/lsp-inlayhints.nvim", opts = {}}
+        },
+        ft = {"rust"},
+        config = function()
+            vim.g.rustaceanvim = {
+                inlay_hints = {highlight = "NonText"},
+                tools = {hover_actions = {auto_focus = true}},
+                server = {
+                    on_attach = function(client, bufnr)
+                        require("lsp-inlayhints").on_attach(client, bufnr)
+                    end
+                }
+            }
+        end
     }
 }
 
 require('mason-tool-installer').setup {
     ensure_installed = {
-        'pyright', "rust-analyzer", "typst_lsp", "ansiblels", "luaformatter",
-        "luacheck", "ansible-lint", "prettier", "flake8", "mypy", "black",
-        "isort", "markdownlint", "sql-formatter", "shfmt", "taplo", "hadolint",
+        'pyright', "typst_lsp", "rust-analyzer", "ansiblels", "luaformatter",
+        "luacheck", "ansible-lint", "prettier", "flake8", "mypy",
+        "markdownlint", "sql-formatter", "shfmt", "taplo", "hadolint",
         "shellcheck"
     },
     auto_update = true
@@ -47,8 +66,45 @@ require('mason-tool-installer').setup {
 require('lspconfig').pyright.setup {
     settings = {
         pyright = {
-            reportGeneralTypeIssues = "warning",
-            reportOptionalMemberAccess = "warning"
+            -- Using Ruff's import organizer
+            disableOrganizeImports = true
+        },
+        python = {
+            analysis = {
+                -- Ignore all files for analysis to exclusively use Ruff for linting
+                ignore = {'*'}
+            }
+        }
+    }
+}
+
+local on_attach = function(client, bufnr)
+    if client.name == 'ruff_lsp' then
+        -- Disable hover in favor of Pyright
+        client.server_capabilities.hoverProvider = false
+    end
+end
+
+require('lspconfig').ruff_lsp.setup {
+    on_attach = on_attach,
+    commands = {
+        RuffAutofix = {
+            function()
+                vim.lsp.buf.execute_command {
+                    command = 'ruff.applyAutofix',
+                    arguments = {{uri = vim.uri_from_bufnr(0)}}
+                }
+            end,
+            description = 'Ruff: Fix all auto-fixable problems'
+        },
+        RuffOrganizeImports = {
+            function()
+                vim.lsp.buf.execute_command {
+                    command = 'ruff.applyOrganizeImports',
+                    arguments = {{uri = vim.uri_from_bufnr(0)}}
+                }
+            end,
+            description = 'Ruff: Format imports'
         }
     }
 }
@@ -111,16 +167,13 @@ vim.notify = require("notify")
 
 require("notify").setup({background_colour = "#1a1b26"})
 
-require("lvim.lsp.manager").setup("rust_analyzer")
 require("lvim.lsp.manager").setup("pyright")
 require("lvim.lsp.manager").setup("typst_lsp")
 require("lvim.lsp.manager").setup("ansiblels")
-require("lvim.lsp.manager").setup("rustfmt")
 
 -- setup formatting
 local formatters = require "lvim.lsp.null-ls.formatters"
 formatters.setup {
-    {name = "black"}, {name = "isort"},
     {command = "lua-format", filetypes = {"lua"}},
     {command = "sql-formatter", filetypes = {"sql"}},
     {command = 'prettier', filetypes = {"markdown", "yaml", "json"}},
@@ -134,7 +187,6 @@ lvim.format_on_save.pattern = {"*"}
 -- setup linting
 local linters = require "lvim.lsp.null-ls.linters"
 linters.setup {
-    {command = "flake8", filetypes = {"python"}},
     {command = "mypy", filetypes = {"python"}},
     {command = "luacheck", filetypes = {"lua"}},
     {command = "markdownlint", filetypes = {"markdown"}},

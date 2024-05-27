@@ -24,7 +24,7 @@
 
 - name: Install LunarVim
   environment:
-    LV_BRANCH: 'release-1.3/neovim-0.9'
+    LV_BRANCH: 'release-1.4/neovim-0.9'
   ansible.builtin.shell:
-    cmd: bash <(curl -s https://raw.githubusercontent.com/LunarVim/LunarVim/release-1.3/neovim-0.9/utils/installer/install.sh)
+    cmd: bash <(curl -s https://raw.githubusercontent.com/LunarVim/LunarVim/release-1.4/neovim-0.9/utils/installer/install.sh)
     creates: "{{ ansible_env.HOME }}/.local/bin/lvim"
