@@ -3,7 +3,7 @@ require('mason-tool-installer').setup {
         'pyright', "typst_lsp", "rust-analyzer", "ansiblels", "luaformatter",
         "luacheck", "ansible-lint", "prettier", "flake8", "mypy",
         "markdownlint", "sql-formatter", "shfmt", "taplo", "hadolint",
-        "shellcheck"
+        "shellcheck", "sqlfluff"
     },
     auto_update = true
 }
@@ -49,11 +49,15 @@ require('lspconfig').ruff_lsp.setup {
 
 local formatters = require "lvim.lsp.null-ls.formatters"
 formatters.setup {
-    {command = "lua-format", filetypes = {"lua"}},
-    {command = "sql-formatter", filetypes = {"sql"}},
-    {command = 'prettier', filetypes = {"markdown", "yaml", "json"}},
+    {command = "lua-format", filetypes = {"lua"}}, {
+        command = "sql-formatter",
+        args = {"--language", "postgresql"},
+        filetypes = {"sql"}
+    }, {command = 'prettier', filetypes = {"markdown", "yaml", "json"}},
     {command = "shfmt", filetypes = {"sh"}},
-    {command = "taplo", filetypes = {"toml"}}
+    {command = "taplo", filetypes = {"toml"}},
+    {command = "jq", filetypes = {"json"}}
+
 }
 
 -- setup linting
@@ -67,6 +71,7 @@ linters.setup {
     {command = "ansiblelint", filetypes = {"yaml.ansible"}},
     {command = "protolint", filetypes = {"proto"}}
 }
+
 local on_attach = function(client, bufnr)
     if client.name == 'ruff_lsp' then
         -- Disable hover in favor of Pyright
