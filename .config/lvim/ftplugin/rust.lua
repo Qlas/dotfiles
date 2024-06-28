@@ -1,14 +1,34 @@
-local bufnr = vim.api.nvim_get_current_buf()
-vim.keymap.set("n", "K", function() vim.cmd.RustLsp {'hover', 'actions'} end,
-               {silent = true, buffer = bufnr})
+local status_ok, which_key = pcall(require, "which-key")
+if not status_ok then
+	return
+end
 
-vim.keymap.set("n", "<leader>re",
-               function() vim.cmd.RustLsp {'explainError'} end,
-               {silent = true, buffer = bufnr, desc = "Explain Error"})
+local opts = {
+	mode = "n",
+	prefix = "<leader>",
+	buffer = nil,
+	silent = true,
+	noremap = true,
+	nowait = true,
+}
 
-vim.keymap.set("n", "<leader>rd",
-               function() vim.cmd.RustLsp {'renderDiagnostic'} end,
-               {silent = true, buffer = bufnr, desc = "Diagnostic"})
+local mappings = {
+	C = {
+		name = "Rust",
+		r = { "<cmd>RustLsp runnables<Cr>", "Runnables" },
+		m = { "<cmd>RustLsp expandMacro<Cr>", "Expand Macro" },
+		c = { "<cmd> RustLsp openCargo<Cr>", "Open Cargo" },
+		D = { "<cmd>rustLsp externalDocs<Cr>", "Open Docs" },
+		p = { "<cmd>RustLsp parentModule<Cr>", "Parent Module" },
+		d = { "<cmd>RustLsp debuggables<Cr>", "Debuggables" },
+		v = { "<cmd>RustLsp crateGraph<Cr>", "View Crate Graph" },
+	},
+}
 
-vim.keymap.set("n", "<leader>rc", function() vim.cmd.RustLsp {'openCargo'} end,
-               {silent = true, buffer = bufnr, desc = "Open Cargo"})
+which_key.register(mappings, opts)
+
+require("neotest").setup({
+	adapters = {
+		require("neotest-rust"),
+	},
+})
