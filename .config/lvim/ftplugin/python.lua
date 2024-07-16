@@ -8,6 +8,11 @@ local pyright_opts = {
 		pyright = {
 			disableOrganizeImports = true, -- Using Ruff
 		},
+		python = {
+			analysis = {
+				ignore = { "*" },
+			},
+		},
 	},
 }
 
@@ -16,24 +21,18 @@ local ruff_on_attach = function(client, bufnr)
 	client.server_capabilities.hoverProvider = false
 
 	-- Add ruff applyOrganizeImports on save
-	local ruff_lsp_client = require("lspconfig.util").get_active_client_by_name(bufnr, "ruff_lsp")
+	local augroup = vim.api.nvim_create_augroup("LspFormatting", { clear = true })
 
-	local request = function(method, params)
-		ruff_lsp_client.request(method, params, nil, bufnr)
-	end
-
-	local organize_imports = function()
-		request("workspace/executeCommand", {
-			command = "ruff.applyOrganizeImports",
-			arguments = { { uri = vim.uri_from_bufnr(bufnr) } },
-		})
-	end
-
-	vim.api.nvim_create_user_command("RuffOrganizeImports", organize_imports, { desc = "Ruff: Organize Imports" })
-
-	vim.api.nvim_create_autocmd("BufWrite", {
-		pattern = { "*.py" },
-		command = "RuffOrganizeImports",
+	vim.api.nvim_create_autocmd("BufWritePre", {
+		callback = function()
+			vim.lsp.buf.code_action({
+				context = { only = { "source.organizeImports" } },
+				apply = true,
+			})
+			vim.wait(100)
+		end,
+		buffer = bufnr,
+		group = augroup,
 	})
 end
 
@@ -43,7 +42,7 @@ require("lvim.lsp.manager").setup("pyright", pyright_opts)
 require("lvim.lsp.manager").setup("ruff_lsp", ruff_opts)
 
 local linters = require("lvim.lsp.null-ls.linters")
-linters.setup({ { command = "mypy" } })
+linters.setup({ { command = "mypy", only_local = ".venv" } })
 
 local opts = {
 	mode = "n",
@@ -90,6 +89,7 @@ require("neotest").setup({
 		require("neotest-python")({
 			dap = { justMyCode = false, console = "integratedTerminal" },
 			runner = "pytest",
+			args = { "-vv" },
 		}),
 	},
 })
