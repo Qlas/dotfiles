@@ -41,8 +41,8 @@ local ruff_opts = { on_attach = ruff_on_attach }
 require("lvim.lsp.manager").setup("pyright", pyright_opts)
 require("lvim.lsp.manager").setup("ruff_lsp", ruff_opts)
 
-local linters = require("lvim.lsp.null-ls.linters")
-linters.setup({ { command = "mypy", only_local = ".venv" } })
+-- local linters = require("lvim.lsp.null-ls.linters")
+-- linters.setup({ { command = "mypy", only_local = ".venv" } })
 
 local opts = {
 	mode = "n",

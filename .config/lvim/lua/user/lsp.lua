@@ -39,6 +39,11 @@ linters.setup({
 	{ command = "hadolint", filetypes = { "dockerfile" } },
 	{ command = "ansiblelint", filetypes = { "yaml.ansible" } },
 	{ command = "protolint", filetypes = { "proto" } },
+	{
+		command = "mypy",
+		filetypes = { "python" },
+		prefer_local = ".venv",
+	},
 })
 
 require("lvim.lsp.manager").setup("typst_lsp")
