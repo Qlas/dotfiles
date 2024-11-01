@@ -21,6 +21,7 @@ theme.white = "#D3D3D3"
 
 -- bg
 theme.bg_normal = theme.black
+theme.tooltip_bg = theme.black
 theme.bg_focus = theme.red
 theme.bg_urgent = theme.red
 theme.bg_systray = theme.bg_normal
@@ -29,6 +30,7 @@ theme.bg_systray = theme.bg_normal
 theme.fg_normal = theme.white
 theme.fg_focus = theme.yellow
 theme.fg_urgent = theme.white
+theme.tooltip_fg = theme.white
 
 -- spacing
 theme.spacing = dpi(5)
