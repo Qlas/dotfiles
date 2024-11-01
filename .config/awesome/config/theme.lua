@@ -44,6 +44,8 @@ theme.border_width = dpi(1)
 theme.border_radius = dpi(10)
 theme.border_focus = theme.bg_focus
 theme.border_normal = theme.bg_normal
+theme.tooltip_border_width = dpi(1)
+theme.tooltip_border_color = theme.bg_focus
 
 -- taglist
 theme.taglist_bg = theme.bg_normal
