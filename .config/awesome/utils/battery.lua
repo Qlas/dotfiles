@@ -7,5 +7,5 @@ local update_battery = function(widget, status)
 end
 
 return function(widget)
-	return awful.widget.watch("acpi", 1, update_battery, widget)
+	return awful.widget.watch("acpi", 5, update_battery, widget)
 end
