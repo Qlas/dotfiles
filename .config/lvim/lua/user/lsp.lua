@@ -1,6 +1,6 @@
 require("mason-tool-installer").setup({
 	ensure_installed = {
-		"typst_lsp",
+		"tinymist",
 		"rust-analyzer",
 		"ansiblels",
 		"stylua",
