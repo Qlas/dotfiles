@@ -36,3 +36,9 @@
   ansible.builtin.git:
     repo: https://github.com/romkatv/powerlevel10k
     dest: "{{ ansible_env.HOME }}/.oh-my-zsh/custom/themes/powerlevel10k"
+
+- name: Change user default shell
+  become: true
+  ansible.builtin.user:
+    name: "{{ lookup('env', 'USER') }}"
+    shell: /usr/bin/zsh
