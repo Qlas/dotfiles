@@ -4,6 +4,13 @@
     name:
       - https://archive.archlinux.org/packages/n/neovim/neovim-0.10.4-2-x86_64.pkg.tar.zst
 
+- name: Freeze neovim package
+  become: true
+  ansible.builtin.lineinfile:
+    path: /etc/pacman.conf
+    regexp: '^#IgnorePkg'
+    line: 'IgnorePkg = neovim'
+
 - name: Install packages needed by lunarvim
   become: true
   ansible.builtin.pacman:
