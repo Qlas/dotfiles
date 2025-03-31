@@ -5,3 +5,7 @@
 
 - name: Set stable Rust release
   ansible.builtin.shell: rustup default stable
+
+- name: Set X11 layout
+  become: true
+  ansible.builtin.command: localectl set-x11-keymap pl

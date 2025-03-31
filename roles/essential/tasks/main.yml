@@ -1,6 +1,10 @@
 - name: Include global-packages
   ansible.builtin.import_tasks: install-global-packages.yml
 
+- name: Include polish keyboard layout
+  ansible.builtin.import_tasks: configure-polish-keyboard.yml
+
+
 - name: Include ufw
   ansible.builtin.import_tasks: install-ufw.yml
 
