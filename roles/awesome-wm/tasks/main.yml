@@ -1,5 +1,7 @@
 - name: Install awesome-git
   ansible.builtin.shell: paru -S awesome-git --noconfirm
+  environment:
+    CMAKE_POLICY_VERSION_MINIMUM: 3.5
   args:
     creates: /usr/bin/awesome
 

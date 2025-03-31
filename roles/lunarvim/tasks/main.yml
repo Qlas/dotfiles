@@ -1,8 +1,13 @@
+- name: Install neovim 0.10.4 (This is nasty workaround until lvim support 0.11.x)
+  become: true
+  ansible.builtin.pacman:
+    name:
+      - https://archive.archlinux.org/packages/n/neovim/neovim-0.10.4-2-x86_64.pkg.tar.zst
+
 - name: Install packages needed by lunarvim
   become: true
   ansible.builtin.pacman:
     name:
-      - neovim
       - ripgrep
 
 - name: Create npm-global folder
