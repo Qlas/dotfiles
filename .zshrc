@@ -147,5 +147,6 @@ function cd() {
   fi
 }
 
+[[ "$TERM" == "xterm-kitty" ]] && alias ssh="TERM=xterm-256color ssh"
 
 export PYTHONPATH=/usr/lib64/
