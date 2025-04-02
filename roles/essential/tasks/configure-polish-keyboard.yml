@@ -1,0 +1,7 @@
+- name: Set console layout
+  become: true
+  ansible.builtin.lineinfile:
+    path: /etc/vconsole.conf
+    regexp: '^KEYMAP='
+    line: 'KEYMAP=pl'
+  notify: Set X11 layout
