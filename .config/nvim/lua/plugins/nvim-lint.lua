@@ -17,6 +17,7 @@ return {
     -- or add custom linters.
     ---@type table<string,table>
     linters = {
+      sqlfluff = { args = { "--dialect=postgres" } },
       -- -- Example of using selene only when a selene.toml file is present
       -- selene = {
       --   -- `condition` is another LazyVim extension that allows you to
