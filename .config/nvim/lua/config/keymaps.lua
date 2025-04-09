@@ -5,9 +5,9 @@
 local map = LazyVim.safe_keymap_set
 
 map({ "n", "t" }, "<A-1>", function()
-  Snacks.terminal(nil, { win = { position = "bottom" } })
+  Snacks.terminal(nil, { cwd = LazyVim.root(), win = { position = "bottom", border = "single" } })
 end, { desc = "Terminal bottom" })
 
 map({ "n", "t" }, "<A-3>", function()
-  Snacks.terminal(nil, { win = { position = "float" } })
+  Snacks.terminal(nil, { win = { position = "float", border = "single" } })
 end, { desc = "Terminal float" })

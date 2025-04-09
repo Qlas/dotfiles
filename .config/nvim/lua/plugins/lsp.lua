@@ -1,3 +1,23 @@
+local lspconfig = require("lspconfig")
+
+lspconfig.basedpyright.setup({
+  settings = {
+    basedpyright = {
+      analysis = {
+        typeCheckingMode = "off",
+        disableOrganizeImports = true,
+        inlayHints = {
+          genericTypes = true,
+        },
+      },
+    },
+  },
+  on_attach = function(client, _)
+    client.server_capabilities.hoverProvider = false
+    client.server_capabilities.definitionProvider = false
+  end,
+})
+
 return {
   {
     "neovim/nvim-lspconfig",
@@ -18,6 +38,9 @@ return {
           },
         },
       },
+      on_attach = function(client)
+        client.server_capabilities.documentFormattingProvider = false -- Disable formatting
+      end,
     },
   },
 }
