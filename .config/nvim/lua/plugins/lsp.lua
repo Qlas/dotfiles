@@ -6,18 +6,19 @@ lspconfig.basedpyright.setup({
       analysis = {
         typeCheckingMode = "off",
         disableOrganizeImports = true,
-        inlayHints = {
-          genericTypes = true,
-        },
       },
-      on_attach = function(client)
-        client.server_capabilities.documentFormattingProvider = false -- Disable formatting
-      end,
+      -- on_attach = function(client)
+      --   client.server_capabilities.documentFormattingProvider = false -- Disable formatting
+      -- end,
     },
   },
 })
 
 return {
   "neovim/nvim-lspconfig",
-  opts = { servers = { pyright = { enabled = false } } },
+  opts = {
+    servers = {
+      pyright = { enabled = false },
+    },
+  },
 }
