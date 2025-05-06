@@ -14,7 +14,7 @@ which were created specifically for Arch Linux.
 | Kitty             | Terminal          |
 | zsh               | Shell             |
 | Powerlevel10k     | Zsh theme         |
-| LunarVim          | Editor            |
+| LazyVim           | Editor            |
 | Rofi              | Launcher          |
 | Pyenv             | Python Management |
 

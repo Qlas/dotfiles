@@ -1,16 +1,3 @@
-- name: Install neovim 0.10.4 (This is nasty workaround until lvim support 0.11.x)
-  become: true
-  ansible.builtin.pacman:
-    name:
-      - https://archive.archlinux.org/packages/n/neovim/neovim-0.10.4-2-x86_64.pkg.tar.zst
-
-- name: Freeze neovim package
-  become: true
-  ansible.builtin.lineinfile:
-    path: /etc/pacman.conf
-    regexp: '^#IgnorePkg'
-    line: 'IgnorePkg = neovim'
-
 - name: Install optional packages
   become: true
   ansible.builtin.pacman:
@@ -18,6 +5,7 @@
       - ripgrep
       - lazygit
       - fzf
+      - neovim
 
 - name: Install Nerd Fonts
   ansible.builtin.get_url:
