@@ -1,0 +1,14 @@
+- name: Install optional packages
+  become: true
+  ansible.builtin.pacman:
+    name:
+      - ripgrep
+      - lazygit
+      - fzf
+      - neovim
+
+- name: Install Nerd Fonts
+  ansible.builtin.get_url:
+    url: https://github.com/ryanoasis/nerd-fonts/raw/HEAD/patched-fonts/DroidSansMono/DroidSansMNerdFont-Regular.otf
+    dest: "{{ ansible_env.HOME }}/.local/share/fonts/DroidSansMNerdFont-Regular.otf"
+  notify: Update font-cache
